@@ -98,6 +98,7 @@ def main():
         bboxes=boxes[:, [1, 0, 3, 2]],
         labels=np.arange(len(masks)) + 1,
         captions=[f"{args.prompt}: {s:.0%}" for s in scores],
+        font_size=max(1, min(image.size) // 40),
     )
     imgviz.io.pil_imshow(viz)
 
