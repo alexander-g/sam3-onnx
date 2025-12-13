@@ -2,6 +2,23 @@
 
 [ONNX](https://onnx.ai/) export and inference for [SAM3](https://github.com/facebookresearch/sam3).
 
+## Quick start
+
+```sh
+curl -L https://huggingface.co/wkentaro/sam3-onnx-models/resolve/main/sam3_image_encoder.onnx -o models/sam3_image_encoder.onnx
+curl -L https://huggingface.co/wkentaro/sam3-onnx-models/resolve/main/sam3_image_encoder.onnx.data -o models/sam3_image_encoder.onnx.data
+curl -L https://huggingface.co/wkentaro/sam3-onnx-models/resolve/main/sam3_language_encoder.onnx -o models/sam3_language_encoder.onnx
+curl -L https://huggingface.co/wkentaro/sam3-onnx-models/resolve/main/sam3_language_encoder.onnx.data -o models/sam3_language_encoder.onnx.data
+curl -L https://huggingface.co/wkentaro/sam3-onnx-models/resolve/main/sam3_decoder.onnx -o models/sam3_decoder.onnx
+curl -L https://huggingface.co/wkentaro/sam3-onnx-models/resolve/main/sam3_decoder.onnx.data -o models/sam3_decoder.onnx.data
+
+uv run ./infer_onnx.py --image images/bus.jpg --prompt person
+uv run ./infer_onnx.py --image images/sofa.jpg --prompt sofa
+uv run ./infer_onnx.py --image images/dog.jpg --prompt dog
+```
+
+<img src="assets/example_bus_person.jpg" width="25%" /> <img src="assets/example_sofa_sofa.jpg" width="30%" /> <img src="assets/example_dog_dog.jpg" width="36%" />
+
 ## Installation
 
 ```sh
@@ -35,7 +52,7 @@ uv run infer_onnx.py  # use models/*.onnx
 
 ## Pre-exported ONNX models
 
-If don't want to export yourself, download them from the [latest release](https://github.com/wkentaro/sam3-onnx/releases/latest).
+If don't want to export yourself, download them from the [Hugging Face repo](https://huggingface.co/wkentaro/sam3-onnx-models) and put them in the `models/` directory as follows:
 
 ```
 models
