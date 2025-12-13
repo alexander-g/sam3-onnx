@@ -63,22 +63,22 @@ models
 ## Examples
 
 ```sh
-./infer_onnx.py --image images/bus.jpg --prompt person
-./infer_onnx.py --image images/bus.jpg --prompt window
+uv run infer_onnx.py --image images/bus.jpg --prompt person
+uv run infer_onnx.py --image images/bus.jpg --prompt window
 ```
 
 <img src="assets/example_bus_person.jpg" width="30%" /> <img src="assets/example_bus_window.jpg" width="30%" />
 
 ```sh
-./infer_onnx.py --image images/sofa.jpg --prompt person
-./infer_onnx.py --image images/sofa.jpg --prompt sofa
+uv run infer_onnx.py --image images/sofa.jpg --prompt person
+uv run infer_onnx.py --image images/sofa.jpg --prompt sofa
 ```
 
 <img src="assets/example_sofa_person.jpg" width="40%" /> <img src="assets/example_sofa_sofa.jpg" width="40%" />
 
 ```sh
-./infer_onnx.py --image images/dog.jpg --prompt dog
-./infer_onnx.py --image images/dog.jpg --prompt ground
+uv run infer_onnx.py --image images/dog.jpg --prompt dog
+uv run infer_onnx.py --image images/dog.jpg --prompt ground
 ```
 
 <img src="assets/example_dog_dog.jpg" width="40%" /> <img src="assets/example_dog_ground.jpg" width="40%" />
