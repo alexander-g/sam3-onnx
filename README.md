@@ -1,5 +1,7 @@
 # sam3-onnx
 
+[ONNX](https://onnx.ai/) export and inference for [SAM3](https://github.com/facebookresearch/sam3).
+
 ## Installation
 
 ```sh
@@ -11,20 +13,20 @@ make build  # install deps with uv
 
 ## Usage
 
-### Inference with pytorch
+**Inference with pytorch**
 
 ```sh
 uv run infer_torch.py  # use official sam3 module
 # uv run infer_torch.py --image <IMAGE_PATH> --prompt <PROMPT>
 ```
 
-### Export to onnx
+**Export to onnx**
 
 ```sh
 uv run export_onnx.py  # creates models/*.onnx
 ```
 
-### Inference with onnx
+**Inference with onnx**
 
 ```sh
 uv run infer_onnx.py  # use models/*.onnx
