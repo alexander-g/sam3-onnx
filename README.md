@@ -8,6 +8,8 @@
 git clone https://github.com/wkentaro/sam3-onnx.git
 cd sam3-onnx
 
+curl -LsSf https://astral.sh/uv/install.sh | sh  # install uv
+
 make build  # install deps with uv
 ```
 
@@ -31,6 +33,20 @@ uv run export_onnx.py  # creates models/*.onnx
 ```sh
 uv run infer_onnx.py  # use models/*.onnx
 # uv run infer_onnx.py --image <IMAGE_PATH> --prompt <PROMPT>
+```
+
+## Pre-exported ONNX models
+
+If don't want to export yourself, download them from the [latest release](https://github.com/wkentaro/sam3-onnx/releases/latest).
+
+```
+models
+├── sam3_decoder.onnx
+├── sam3_decoder.onnx.data
+├── sam3_image_encoder.onnx
+├── sam3_image_encoder.onnx.data
+├── sam3_language_encoder.onnx
+└── sam3_language_encoder.onnx.data
 ```
 
 ## Examples
