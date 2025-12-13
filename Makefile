@@ -21,11 +21,8 @@ help:
 		awk 'BEGIN {FS = ":.*?# "}; \
 		{printf "  $(YELLOW)%-23s$(NC) %s\n", $$1, $$2}'
 
-clone:
-	$(call exec,test -d sam3 || git clone https://github.com/wkentaro/sam3.git -b onnx)
-	$(call exec,cd sam3 && git pull origin onnx)
-
-build: clone  # build
+build: # build
+	$(call exec,git submodule update --init --recursive)
 	$(call exec,uv sync)
 
 lint:  # lint

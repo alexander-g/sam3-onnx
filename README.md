@@ -3,10 +3,12 @@
 ## Setup
 
 ```sh
+# clone this repository
 git clone https://github.com/wkentaro/sam3-onnx.git
 cd sam3-onnx
 
-make build  # git clone sam3:onnx and build uv
+# clone submodule (sam3:onnx)
+make build
 ```
 
 ## Inference with PyTorch
