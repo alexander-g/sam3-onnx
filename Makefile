@@ -25,8 +25,7 @@ uv:
 	@if command -v uv >/dev/null 2>&1; then \
 		echo "$(BOLD)uv is already installed.$(NC)"; \
 	else \
-		echo "$(BOLD)installing uv...$(NC)"; \
-		curl -fsSL https://astral.sh/uv/install.sh | sh; \
+		echo "$(RED)Please install uv https://docs.astral.sh/uv/getting-started/installation/$(NC)"; \
 	fi
 
 build: uv  # build
