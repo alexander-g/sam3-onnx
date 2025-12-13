@@ -1,32 +1,32 @@
 # sam3-onnx
 
-## Setup
+## Installation
 
 ```sh
-# clone this repository
 git clone https://github.com/wkentaro/sam3-onnx.git
 cd sam3-onnx
 
-# clone submodule (sam3:onnx)
-make build
+make build  # install deps with uv
 ```
 
-## Inference with PyTorch
+## Usage
+
+### Inference with pytorch
 
 ```sh
-uv run infer_torch.py
-# uv run infer_torch.py  --image <IMAGE_PATH> --prompt <PROMPT>
+uv run infer_torch.py  # use official sam3 module
+# uv run infer_torch.py --image <IMAGE_PATH> --prompt <PROMPT>
 ```
 
-## Export to ONNX
+### Export to onnx
 
 ```sh
-uv run export_onnx.py
+uv run export_onnx.py  # creates models/*.onnx
 ```
 
-## Inference with ONNX Runtime
+### Inference with onnx
 
 ```sh
-uv run infer_onnx.py
+uv run infer_onnx.py  # use models/*.onnx
 # uv run infer_onnx.py --image <IMAGE_PATH> --prompt <PROMPT>
 ```
