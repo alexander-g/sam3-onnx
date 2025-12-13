@@ -21,7 +21,15 @@ help:
 		awk 'BEGIN {FS = ":.*?# "}; \
 		{printf "  $(YELLOW)%-23s$(NC) %s\n", $$1, $$2}'
 
-build: # build
+uv:
+	@if command -v uv >/dev/null 2>&1; then \
+		echo "$(BOLD)uv is already installed.$(NC)"; \
+	else \
+		echo "$(BOLD)installing uv...$(NC)"; \
+		curl -fsSL https://astral.sh/uv/install.sh | sh; \
+	fi
+
+build: uv  # build
 	$(call exec,git submodule update --init --recursive)
 	$(call exec,uv sync)
 

@@ -8,8 +8,6 @@
 git clone https://github.com/wkentaro/sam3-onnx.git
 cd sam3-onnx
 
-curl -LsSf https://astral.sh/uv/install.sh | sh  # install uv
-
 make build  # install deps with uv
 ```
 
