@@ -35,6 +35,8 @@ uv run infer_torch.py  # use official sam3 module
 
 ```sh
 uv run export_onnx.py  # creates models/*.onnx
+
+# uvx hf upload wkentaro/sam3-onnx-models models/ --include '*.onnx*'
 ```
 
 **Inference with onnx**
