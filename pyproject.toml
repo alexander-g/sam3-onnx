@@ -4,15 +4,11 @@ version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
     "imgviz>=1.7.6",
-    "ipython>=9.8.0",
     "loguru>=0.7.3",
-    "onnx>=1.20.0",
     "onnxruntime>=1.23.2",
     "onnxscript>=0.5.6",
     "osam>=0.2.5",
     "sam3",
-    "ty>=0.0.1a34",
-    "types-pillow>=10.2.0.20240822",
 ]
 
 [tool.uv.workspace]
@@ -43,6 +39,13 @@ exclude = ["sam3/"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+
+[dependency-groups]
+dev = [
+    "ipython>=9.8.0",
+    "ty>=0.0.1a34",
+    "types-pillow>=10.2.0.20240822",
+]
 
 [tool.uv.sources]
 sam3 = { workspace = true, editable = true }
