@@ -38,7 +38,13 @@ requires-dist = [
 exclude = ["sam3/"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I"]
+select = ["E", "F", "I", "UP"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ty]
+src.exclude = ["sam3/"]
 
 [dependency-groups]
 dev = [
