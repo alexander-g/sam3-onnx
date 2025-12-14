@@ -7,6 +7,7 @@ dependencies = [
     "loguru>=0.7.3",
     "onnxruntime>=1.23.2",
     "onnxscript>=0.5.6",
+    "opencv-python>=4.11.0.86",
     "osam>=0.2.5",
     "sam3",
 ]
