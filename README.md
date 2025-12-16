@@ -9,9 +9,9 @@ git clone https://github.com/wkentaro/sam3-onnx.git && cd sam3-onnx
 
 uvx hf download wkentaro/sam3-onnx-models --local-dir models  # download pre-exported models
 
-uv run infer_onnx.py --image images/bus.jpg --prompt person
-uv run infer_onnx.py --image images/sofa.jpg --prompt sofa
-uv run infer_onnx.py --image images/dog.jpg --prompt dog
+uv run infer_onnx.py --image images/bus.jpg --text-prompt person
+uv run infer_onnx.py --image images/sofa.jpg --text-prompt sofa
+uv run infer_onnx.py --image images/dog.jpg --text-prompt dog
 ```
 
 <img src="assets/example_bus_person.jpg" width="25%" /> <img src="assets/example_sofa_sofa.jpg" width="30%" /> <img src="assets/example_dog_dog.jpg" width="36%" />
@@ -28,7 +28,7 @@ make build  # install dependencies with uv
 
 ```sh
 uv run infer_torch.py  # use official sam3 module
-# uv run infer_torch.py --image <IMAGE_PATH> --prompt <PROMPT>
+# uv run infer_torch.py --image <IMAGE_PATH> --text-prompt <PROMPT>
 ```
 
 **Export to onnx**
@@ -43,7 +43,7 @@ uv run export_onnx.py  # creates models/*.onnx
 
 ```sh
 uv run infer_onnx.py  # use models/*.onnx
-# uv run infer_onnx.py --image <IMAGE_PATH> --prompt <PROMPT>
+# uv run infer_onnx.py --image <IMAGE_PATH> --text-prompt <PROMPT>
 ```
 
 ## Pre-exported ONNX models
@@ -63,22 +63,22 @@ models
 ## Examples
 
 ```sh
-uv run infer_onnx.py --image images/bus.jpg --prompt person
-uv run infer_onnx.py --image images/bus.jpg --prompt window
+uv run infer_onnx.py --image images/bus.jpg --text-prompt person
+uv run infer_onnx.py --image images/bus.jpg --text-prompt window
 ```
 
 <img src="assets/example_bus_person.jpg" width="30%" /> <img src="assets/example_bus_window.jpg" width="30%" />
 
 ```sh
-uv run infer_onnx.py --image images/sofa.jpg --prompt person
-uv run infer_onnx.py --image images/sofa.jpg --prompt sofa
+uv run infer_onnx.py --image images/sofa.jpg --text-prompt person
+uv run infer_onnx.py --image images/sofa.jpg --text-prompt sofa
 ```
 
 <img src="assets/example_sofa_person.jpg" width="40%" /> <img src="assets/example_sofa_sofa.jpg" width="40%" />
 
 ```sh
-uv run infer_onnx.py --image images/dog.jpg --prompt dog
-uv run infer_onnx.py --image images/dog.jpg --prompt ground
+uv run infer_onnx.py --image images/dog.jpg --text-prompt dog
+uv run infer_onnx.py --image images/dog.jpg --text-prompt ground
 ```
 
 <img src="assets/example_dog_dog.jpg" width="40%" /> <img src="assets/example_dog_ground.jpg" width="40%" />
