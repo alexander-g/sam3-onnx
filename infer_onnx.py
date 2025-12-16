@@ -97,7 +97,7 @@ def main():
     logger.debug("running language encoder...")
     text_prompt: str = args.text_prompt if args.text_prompt else "visual"
     output = sess_language.run(
-        None, {"tokenized": tokenize(texts=[text_prompt], context_length=32)}
+        None, {"tokens": tokenize(texts=[text_prompt], context_length=32)}
     )
     assert len(output) == 3
     assert all(isinstance(o, np.ndarray) for o in output)

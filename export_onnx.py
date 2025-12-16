@@ -98,17 +98,17 @@ class _LanguageEncoder(torch.nn.Module):
         self._processor: Sam3Processor = processor
 
     def forward(
-        self, tokenized: torch.Tensor
+        self, tokens: torch.Tensor
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         model: Sam3Image = self._processor.model
 
         # VETextEncoder.forward
-        text_attention_mask = (tokenized != 0).bool()
+        text_attention_mask = (tokens != 0).bool()
         #
         inputs_embeds = model.backbone.language_backbone.encoder.token_embedding(
-            tokenized
+            tokens
         )
-        _, text_memory = model.backbone.language_backbone.encoder(tokenized)
+        _, text_memory = model.backbone.language_backbone.encoder(tokens)
         #
         assert text_memory.shape[1] == inputs_embeds.shape[1]
         text_attention_mask = text_attention_mask.ne(1)
@@ -118,24 +118,24 @@ class _LanguageEncoder(torch.nn.Module):
 
 
 def _export_language_encoder(processor: Sam3Processor) -> list[NDArray]:
-    tokenized = tokenize(texts=["person"], context_length=32)
+    tokens = tokenize(texts=["person"], context_length=32)
 
     onnx_file: pathlib.Path = pathlib.Path("models/sam3_language_encoder.onnx")
     if onnx_file.exists():
         logger.debug("onnx model already exists, skip export: {!r}", str(onnx_file))
     else:
         encoder: _LanguageEncoder = _LanguageEncoder(processor=processor)
-        tokenized_input: torch.Tensor = torch.from_numpy(tokenized).to("cuda")
+        tokens_input: torch.Tensor = torch.from_numpy(tokens).to("cuda")
 
         # with torch.no_grad():
-        #     output = encoder(tokenized=tokenized_input)
+        #     output = encoder(tokens=tokens_input)
 
         logger.debug("exporting onnx model: {!r}", str(onnx_file))
         torch.onnx.export(
             encoder,
-            args=(tokenized_input,),
+            args=(tokens_input,),
             f=onnx_file,
-            input_names=["tokenized"],
+            input_names=["tokens"],
             output_names=["text_attention_mask", "text_memory", "text_embeds"],
             opset_version=21,
             verify=True,
@@ -143,7 +143,7 @@ def _export_language_encoder(processor: Sam3Processor) -> list[NDArray]:
         logger.debug("exported onnx model: {!r}", str(onnx_file))
 
     session: onnxruntime.InferenceSession = onnxruntime.InferenceSession(onnx_file)
-    output = session.run(None, {"tokenized": tokenized})
+    output = session.run(None, {"tokens": tokens})
     assert all(isinstance(o, np.ndarray) for o in output)
     output = typing.cast(list[NDArray], output)
     logger.debug("finished onnx runtime inference")
