@@ -170,7 +170,14 @@ class _Decoder(torch.nn.Module):
         language_mask: torch.Tensor,
         language_features: torch.Tensor,
         language_embeds: torch.Tensor,
+        box_coords: torch.Tensor,
+        box_labels: torch.Tensor,
+        box_masks: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        geometric_prompt = self._processor.model._get_dummy_prompt()
+        geometric_prompt.box_embeddings = box_coords
+        geometric_prompt.box_labels = box_labels
+        geometric_prompt.box_mask = box_masks
         state = {
             "original_height": original_height,
             "original_width": original_width,
@@ -189,7 +196,7 @@ class _Decoder(torch.nn.Module):
                 "language_features": language_features,
                 "language_embeds": language_embeds,
             },
-            "geometric_prompt": self._processor.model._get_dummy_prompt(),
+            "geometric_prompt": geometric_prompt,
         }
         result = self._processor._forward_grounding(state)
         return result["boxes"], result["scores"], result["masks"]
@@ -207,6 +214,9 @@ def _export_decoder(
     language_mask: NDArray,
     language_features: NDArray,
     language_embeds: NDArray,
+    box_coords: NDArray,
+    box_labels: NDArray,
+    box_masks: NDArray,
 ) -> list[NDArray]:
     onnx_file: pathlib.Path = pathlib.Path("models/sam3_decoder.onnx")
     if onnx_file.exists():
@@ -217,20 +227,22 @@ def _export_decoder(
 
         # XXX: this inference is needed to make export work with if-condition with
         # torch.compiler.is_dynamo_compiling
-        with torch.no_grad():
-            output = decoder(
-                original_height=torch.tensor(original_height)[None].to("cuda"),
-                original_width=torch.tensor(original_width)[None].to("cuda"),
-                vision_pos_enc_0=torch.tensor(vision_pos_enc_0).to("cuda"),
-                vision_pos_enc_1=torch.tensor(vision_pos_enc_1).to("cuda"),
-                vision_pos_enc_2=torch.tensor(vision_pos_enc_2).to("cuda"),
-                backbone_fpn_0=torch.tensor(backbone_fpn_0).to("cuda"),
-                backbone_fpn_1=torch.tensor(backbone_fpn_1).to("cuda"),
-                backbone_fpn_2=torch.tensor(backbone_fpn_2).to("cuda"),
-                language_mask=torch.tensor(language_mask).to("cuda"),
-                language_features=torch.tensor(language_features).to("cuda"),
-                language_embeds=torch.tensor(language_embeds).to("cuda"),
-            )
+        # with torch.no_grad():
+        #     output = decoder(
+        #         original_height=torch.tensor(original_height)[None].to("cuda"),
+        #         original_width=torch.tensor(original_width)[None].to("cuda"),
+        #         vision_pos_enc_0=torch.tensor(vision_pos_enc_0).to("cuda"),
+        #         vision_pos_enc_1=torch.tensor(vision_pos_enc_1).to("cuda"),
+        #         vision_pos_enc_2=torch.tensor(vision_pos_enc_2).to("cuda"),
+        #         backbone_fpn_0=torch.tensor(backbone_fpn_0).to("cuda"),
+        #         backbone_fpn_1=torch.tensor(backbone_fpn_1).to("cuda"),
+        #         backbone_fpn_2=torch.tensor(backbone_fpn_2).to("cuda"),
+        #         language_mask=torch.tensor(language_mask).to("cuda"),
+        #         language_features=torch.tensor(language_features).to("cuda"),
+        #         language_embeds=torch.tensor(language_embeds).to("cuda"),
+        #         box_coords=torch.tensor(box_coords).to("cuda"),
+        #         box_labels=torch.tensor(box_labels).to("cuda"),
+        #     )
 
         torch.onnx.export(
             decoder,
@@ -246,6 +258,9 @@ def _export_decoder(
                 torch.tensor(language_mask).to("cuda"),
                 torch.tensor(language_features).to("cuda"),
                 torch.tensor(language_embeds).to("cuda"),
+                torch.tensor(box_coords).to("cuda"),
+                torch.tensor(box_labels).to("cuda"),
+                torch.tensor(box_masks).to("cuda"),
             ),
             f=onnx_file,
             input_names=[
@@ -260,9 +275,13 @@ def _export_decoder(
                 "language_mask",
                 "language_features",
                 "language_embeds",
+                "box_coords",
+                "box_labels",
+                "box_masks",
             ],
             output_names=["boxes", "scores", "masks"],
             opset_version=21,
+            dynamo=False,
             verify=True,
         )
         logger.debug("exported onnx model: {!r}", str(onnx_file))
@@ -273,15 +292,18 @@ def _export_decoder(
         {
             "original_height": np.array([original_height]),
             "original_width": np.array([original_width]),
-            "vision_pos_enc_0": vision_pos_enc_0,
-            "vision_pos_enc_1": vision_pos_enc_1,
+            # "vision_pos_enc_0": vision_pos_enc_0,
+            # "vision_pos_enc_1": vision_pos_enc_1,
             "vision_pos_enc_2": vision_pos_enc_2,
             "backbone_fpn_0": backbone_fpn_0,
             "backbone_fpn_1": backbone_fpn_1,
             "backbone_fpn_2": backbone_fpn_2,
             "language_mask": language_mask,
             "language_features": language_features,
-            "language_embeds": language_embeds,
+            # "language_embeds": language_embeds,
+            "box_coords": box_coords,
+            "box_labels": box_labels,
+            "box_masks": box_masks,
         },
     )
     assert all(isinstance(o, np.ndarray) for o in output)
@@ -317,6 +339,10 @@ def main():
     # result = processor._forward_grounding(state)
     # boxes, scores, masks = result["boxes"], result["scores"], result["masks"]
 
+    box_coords = np.array([[[0.1620, 0.4010, 0.0640, 0.0180]]], dtype=np.float32)
+    box_labels = np.array([[1]], dtype=np.int64)
+    box_masks = np.array([[True]], dtype=np.bool_)
+
     boxes, scores, masks = _export_decoder(
         original_height=image.height,
         original_width=image.width,
@@ -329,6 +355,9 @@ def main():
         language_mask=language_mask,
         language_features=language_features,
         language_embeds=language_embeds,
+        box_coords=box_coords,
+        box_labels=box_labels,
+        box_masks=box_masks,
     )
     # }}
 
