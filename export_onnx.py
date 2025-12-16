@@ -247,8 +247,8 @@ def _export_decoder(
         torch.onnx.export(
             decoder,
             args=(
-                torch.tensor(original_height)[None].to("cuda"),
-                torch.tensor(original_width)[None].to("cuda"),
+                torch.tensor(original_height).to("cuda"),
+                torch.tensor(original_width).to("cuda"),
                 torch.tensor(vision_pos_enc_0).to("cuda"),
                 torch.tensor(vision_pos_enc_1).to("cuda"),
                 torch.tensor(vision_pos_enc_2).to("cuda"),
@@ -290,8 +290,8 @@ def _export_decoder(
     output = session.run(
         None,
         {
-            "original_height": np.array([original_height]),
-            "original_width": np.array([original_width]),
+            "original_height": np.array(original_height),
+            "original_width": np.array(original_width),
             # "vision_pos_enc_0": vision_pos_enc_0,
             # "vision_pos_enc_1": vision_pos_enc_1,
             "vision_pos_enc_2": vision_pos_enc_2,

@@ -118,8 +118,8 @@ def main():
     output = sess_decode.run(
         None,
         {
-            "original_height": np.array([image.height], dtype=np.int64),
-            "original_width": np.array([image.width], dtype=np.int64),
+            "original_height": np.array(image.height, dtype=np.int64),
+            "original_width": np.array(image.width, dtype=np.int64),
             "backbone_fpn_0": backbone_fpn[0],
             "backbone_fpn_1": backbone_fpn[1],
             "backbone_fpn_2": backbone_fpn[2],
