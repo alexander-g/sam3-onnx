@@ -105,9 +105,7 @@ class _LanguageEncoder(torch.nn.Module):
         # VETextEncoder.forward
         text_attention_mask = (tokens != 0).bool()
         #
-        inputs_embeds = model.backbone.language_backbone.encoder.token_embedding(
-            tokens
-        )
+        inputs_embeds = model.backbone.language_backbone.encoder.token_embedding(tokens)
         _, text_memory = model.backbone.language_backbone.encoder(tokens)
         #
         assert text_memory.shape[1] == inputs_embeds.shape[1]
