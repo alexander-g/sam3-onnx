@@ -11,10 +11,10 @@ uvx hf download wkentaro/sam3-onnx-models --local-dir models  # download pre-exp
 
 uv run infer_onnx.py --image images/bus.jpg --text-prompt person
 uv run infer_onnx.py --image images/sofa.jpg --text-prompt sofa
-uv run infer_onnx.py --image images/dog.jpg --text-prompt dog
+uv run infer_onnx.py --image images/dog.jpg --box-prompt  # opens a gui to select box
 ```
 
-<img src="assets/example_bus_person.jpg" width="25%" /> <img src="assets/example_sofa_sofa.jpg" width="30%" /> <img src="assets/example_dog_dog.jpg" width="36%" />
+<img src="assets/example_bus_person.jpg" width="25%" /> <img src="assets/example_sofa_sofa.jpg" width="30%" /> <img src="assets/example_dog_face_boxprompt.jpg" width="36%" />
 
 ## Installation
 
@@ -27,23 +27,33 @@ make build  # install dependencies with uv
 **Inference with pytorch**
 
 ```sh
-uv run infer_torch.py  # use official sam3 module
-# uv run infer_torch.py --image <IMAGE_PATH> --text-prompt <PROMPT>
+# with text prompt
+uv run infer_torch.py --image images/bus.jpg --text-prompt person
+
+# with box prompt
+uv run infer_torch.py --image images/bus.jpg --box-prompt 0.548,0.658,0.043,0.095
+uv run infer_torch.py --image images/bus.jpg --box-prompt  # opens a gui to select box
 ```
 
 **Export to onnx**
 
 ```sh
-uv run export_onnx.py  # creates models/*.onnx
+# create models/*.onnx
+uv run export_onnx.py
 
+# upload to Hugging Face Hub
 # uvx hf upload wkentaro/sam3-onnx-models models/ --include '*.onnx*'
 ```
 
 **Inference with onnx**
 
 ```sh
-uv run infer_onnx.py  # use models/*.onnx
-# uv run infer_onnx.py --image <IMAGE_PATH> --text-prompt <PROMPT>
+# with text prompt
+uv run infer_onnx.py --image images/bus.jpg --text-prompt person
+
+# with box prompt
+uv run infer_torch.py --image images/bus.jpg --box-prompt 0.548,0.658,0.043,0.095
+uv run infer_torch.py --image images/bus.jpg --box-prompt  # opens a gui to select box
 ```
 
 ## Pre-exported ONNX models
@@ -65,9 +75,10 @@ models
 ```sh
 uv run infer_onnx.py --image images/bus.jpg --text-prompt person
 uv run infer_onnx.py --image images/bus.jpg --text-prompt window
+uv run infer_onnx.py --image images/bus.jpg --box-prompt 0.547,0.656,0.042,0.091  # select a block
 ```
 
-<img src="assets/example_bus_person.jpg" width="30%" /> <img src="assets/example_bus_window.jpg" width="30%" />
+<img src="assets/example_bus_person.jpg" width="30%" /> <img src="assets/example_bus_window.jpg" width="30%" /> <img src="assets/example_bus_block_boxprompt.jpg" width="30%" />
 
 ```sh
 uv run infer_onnx.py --image images/sofa.jpg --text-prompt person
@@ -79,6 +90,7 @@ uv run infer_onnx.py --image images/sofa.jpg --text-prompt sofa
 ```sh
 uv run infer_onnx.py --image images/dog.jpg --text-prompt dog
 uv run infer_onnx.py --image images/dog.jpg --text-prompt ground
+uv run infer_onnx.py --image images/dog.jpg --box-prompt 0.561,0.342,0.167,0.217
 ```
 
-<img src="assets/example_dog_dog.jpg" width="40%" /> <img src="assets/example_dog_ground.jpg" width="40%" />
+<img src="assets/example_dog_dog.jpg" width="30%" /> <img src="assets/example_dog_ground.jpg" width="30%" /> <img src="assets/example_dog_face_boxprompt.jpg" width="30%" />
