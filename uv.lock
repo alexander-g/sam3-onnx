@@ -1570,15 +1570,15 @@ dependencies = [
     { name = "imgviz" },
     { name = "loguru" },
     { name = "onnxruntime" },
-    { name = "onnxscript" },
     { name = "opencv-python" },
     { name = "osam" },
-    { name = "sam3" },
 ]
 
 [package.dev-dependencies]
 dev = [
     { name = "ipython" },
+    { name = "onnxscript" },
+    { name = "sam3" },
     { name = "ty" },
     { name = "types-pillow" },
 ]
@@ -1588,15 +1588,15 @@ requires-dist = [
     { name = "imgviz", specifier = ">=1.7.6" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "onnxruntime", specifier = ">=1.23.2" },
-    { name = "onnxscript", specifier = ">=0.5.6" },
     { name = "opencv-python", specifier = ">=4.11.0.86" },
     { name = "osam", specifier = ">=0.2.5" },
-    { name = "sam3", editable = "sam3" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "ipython", specifier = ">=9.8.0" },
+    { name = "onnxscript", specifier = ">=0.5.6" },
+    { name = "sam3", editable = "sam3" },
     { name = "ty", specifier = ">=0.0.1a34" },
     { name = "types-pillow", specifier = ">=10.2.0.20240822" },
 ]

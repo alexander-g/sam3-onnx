@@ -5,13 +5,13 @@
 ## Quick start
 
 ```sh
-git clone https://github.com/wkentaro/sam3-onnx.git && cd sam3-onnx
+git clone https://github.com/wkentaro/sam3-onnx.git --recursive && cd sam3-onnx
 
 uvx hf download wkentaro/sam3-onnx-models --local-dir models  # download pre-exported models
 
-uv run infer_onnx.py --image images/bus.jpg --text-prompt person
-uv run infer_onnx.py --image images/sofa.jpg --text-prompt sofa
-uv run infer_onnx.py --image images/dog.jpg --box-prompt  # opens a gui to select box
+uv run --no-dev infer_onnx.py --image images/bus.jpg --text-prompt person
+uv run --no-dev infer_onnx.py --image images/sofa.jpg --text-prompt sofa
+uv run --no-dev infer_onnx.py --image images/dog.jpg --box-prompt  # opens a gui to select box
 ```
 
 <img src="assets/example_bus_person.jpg" width="25%" /> <img src="assets/example_sofa_sofa.jpg" width="30%" /> <img src="assets/example_dog_face_boxprompt.jpg" width="36%" />
@@ -19,7 +19,8 @@ uv run infer_onnx.py --image images/dog.jpg --box-prompt  # opens a gui to selec
 ## Installation
 
 ```sh
-make build  # install dependencies with uv
+git clone https://github.com/wkentaro/sam3-onnx.git --recursive && cd sam3-onnx
+uv sync  # dev mode for exporting onnx unlike --no-dev
 ```
 
 ## Usage

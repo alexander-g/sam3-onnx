@@ -6,10 +6,8 @@ dependencies = [
     "imgviz>=1.7.6",
     "loguru>=0.7.3",
     "onnxruntime>=1.23.2",
-    "onnxscript>=0.5.6",
     "opencv-python>=4.11.0.86",
     "osam>=0.2.5",
-    "sam3",
 ]
 
 [tool.uv.workspace]
@@ -50,6 +48,8 @@ src.exclude = ["sam3/"]
 [dependency-groups]
 dev = [
     "ipython>=9.8.0",
+    "onnxscript>=0.5.6",
+    "sam3",
     "ty>=0.0.1a34",
     "types-pillow>=10.2.0.20240822",
 ]
