@@ -33,10 +33,10 @@ build: uv  # build
 	$(call exec,uv sync)
 
 lint:  # lint
-	$(call exec,ruff format --check)
-	$(call exec,ruff check)
-	$(call exec,ty check)
+	$(call exec,uv run ruff format --check)
+	$(call exec,uv run ruff check)
+	$(call exec,uv run ty check)
 
 format:  # format
-	$(call exec,ruff format)
-	$(call exec,ruff check --fix)
+	$(call exec,uv run ruff format)
+	$(call exec,uv run ruff check --fix)
