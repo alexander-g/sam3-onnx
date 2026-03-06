@@ -1,3 +1,9 @@
+This fork contains modifications for patchwise inference on large images.
+
+Below the original readme by wkentaro.
+
+***
+
 # sam3-onnx
 
 [ONNX](https://onnx.ai/) export and inference for [SAM3](https://github.com/facebookresearch/sam3).
